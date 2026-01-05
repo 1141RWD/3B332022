@@ -1,19 +1,28 @@
 @echo off
 chcp 65001
+echo.
 echo =======================================================
-echo 正在清除舊的 GitHub 登入資訊...
+echo 正在強制清除 GitHub 憑證...
 echo 這將確保您可以選擇要使用的帳號進行上傳。
 echo =======================================================
-echo url=https://github.com | git credential reject
+
+:: 創建臨時文件來存儲 git credential reject 的輸入
+echo protocol=https> "%TEMP%\git_cred_input.txt"
+echo host=github.com>> "%TEMP%\git_cred_input.txt"
+echo.>> "%TEMP%\git_cred_input.txt"
+
+:: 使用臨時文件清除憑證
+type "%TEMP%\git_cred_input.txt" | git credential reject
+
+:: 刪除臨時文件
+del "%TEMP%\git_cred_input.txt"
 
 echo.
 echo 檢查 Git 狀態...
 if not exist .git (
     echo 正在初始化 Git 倉庫...
     git init
-) else (
-    echo Git 倉庫已存在。
-)
+) 
 
 echo.
 echo 正在添加文件...
@@ -23,7 +32,6 @@ set datetime=%date% %time%
 git commit -m "Auto update %datetime%"
 
 echo 正在設置遠程倉庫...
-:: 嘗試移除舊的 origin，如果不存在也沒關係 (>nul 2>&1 隱藏錯誤訊息)
 git remote remove origin >nul 2>&1
 git remote add origin https://github.com/1141RWD/3B332022
 
