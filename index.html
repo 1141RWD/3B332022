@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>LAST FRAME</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-index">
+
+  <div class="menu">
+    <h1>LAST FRAME</h1>
+    <div class="subtitle">Survive until the countdown ends.</div>
+
+    <button onclick="startGame()">START</button>
+    <button onclick="openSetting()">SETTINGS</button>
+    <button onclick="exitGame()">EXIT</button>
+  </div>
+
+  <div class="footer">
+    © Prototype Build
+  </div>
+
+  <script>
+    function startGame() {
+      window.location.href = "loading.html";
+    }
+
+    function openSetting() {
+      window.location.href = "setting.html";
+    }
+
+    function exitGame() {
+      window.close();
+      setTimeout(() => {
+        alert("Please close the tab manually.");
+      }, 200);
+    }
+  </script>
+
+  <script src="js/setup.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Check for settings
+    const settings = localStorage.getItem('gameSettings');
+    if (settings) {
+      console.log('Settings loaded:', JSON.parse(settings));
+    }
+  </script>
+</body>
+
+</html>

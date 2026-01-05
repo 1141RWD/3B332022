@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Settings · LAST FRAME</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-setting">
+
+  <div class="panel">
+    <h1>SETTINGS</h1>
+
+    <div class="list" id="keyList"></div>
+
+    <div class="footer">
+      <button onclick="resetDefault()">Reset to Default</button>
+      <button onclick="back()">Back</button>
+    </div>
+  </div>
+
+  <script>
+    /* ===== 預設鍵位 ===== */
+    const defaultKeyMap = {
+      moveLeft: "ArrowLeft",
+      moveRight: "ArrowRight",
+      moveUp: "ArrowUp",
+      moveDown: "ArrowDown",
+      shoot: "Space",
+      pause: "Escape",
+    };
+
+    function prettyKey(code) {
+      return code
+        .replace("Arrow", "")
+        .replace("Key", "")
+        .replace("MouseLeft", "滑鼠左鍵")
+        .replace("MouseRight", "滑鼠右鍵")
+        .replace("MouseMiddle", "滑鼠中鍵");
+    }
+
+    function mouseCode(button) {
+      switch (button) {
+        case 0: return "MouseLeft";
+        case 1: return "MouseMiddle";
+        case 2: return "MouseRight";
+        case 3: return "MouseBack";
+        case 4: return "MouseForward";
+        default: return "Mouse" + button;
+      }
+    }
+
+    window.addEventListener("mousedown", (e) => {
+      if (!waitingAction) return;
+
+      // ⭐ 只允許「射擊」綁定滑鼠
+      if (waitingAction !== "shoot") return;
+
+      const code = mouseCode(e.button);
+
+      // 防止重複綁定
+      for (const a in keyMap) {
+        if (keyMap[a] === code) {
+          alert("此按鍵已被使用！");
+          waitingAction = null;
+          renderList();
+          return;
+        }
+      }
+
+      keyMap[waitingAction] = code;
+      localStorage.setItem("keyMap", JSON.stringify(keyMap));
+
+      waitingAction = null;
+      renderList();
+    });
+
+
+
+    /* ===== 顯示名稱 ===== */
+    const labels = {
+      moveLeft: "向左移動",
+      moveRight: "向右移動",
+      moveUp: "向上移動",
+      moveDown: "向下移動",
+      shoot: "射擊",
+      pause: "暫停",
+    };
+
+    /* ===== 載入目前設定 ===== */
+    let keyMap = { ...defaultKeyMap };
+
+    const saved = localStorage.getItem("keyMap");
+    if (saved) {
+      try {
+        keyMap = { ...keyMap, ...JSON.parse(saved) };
+      } catch { }
+    }
+
+    const keyList = document.getElementById("keyList");
+
+    let waitingAction = null;
+
+    /* ===== 建立列表 ===== */
+    function renderList() {
+      keyList.innerHTML = "";
+
+      for (const action in keyMap) {
+        const row = document.createElement("div");
+        row.className = "row";
+
+        const name = document.createElement("div");
+        name.className = "action";
+        name.textContent = labels[action] || action;
+
+        const key = document.createElement("div");
+        key.className = "key";
+        key.textContent = prettyKey(keyMap[action]);
+
+
+        if (waitingAction === action) {
+          key.classList.add("waiting");
+          key.textContent = "請按下新按鍵";
+        }
+
+        key.onclick = () => {
+          waitingAction = action;
+          renderList();
+        };
+
+        row.appendChild(name);
+        row.appendChild(key);
+        keyList.appendChild(row);
+      }
+    }
+
+    renderList();
+
+    /* ===== 鍵盤綁定 ===== */
+    window.addEventListener("keydown", (e) => {
+      if (!waitingAction) return;
+
+      // 防止重複綁定
+      for (const a in keyMap) {
+        if (keyMap[a] === e.code) {
+          alert("此按鍵已被使用！");
+          waitingAction = null;
+          renderList();
+          return;
+        }
+      }
+
+      keyMap[waitingAction] = e.code;
+      localStorage.setItem("keyMap", JSON.stringify(keyMap));
+
+      waitingAction = null;
+      renderList();
+    });
+
+
+    /* ===== 重設 ===== */
+    function resetDefault() {
+      if (!confirm("確定要恢復預設鍵位？")) return;
+      keyMap = { ...defaultKeyMap };
+      localStorage.setItem("keyMap", JSON.stringify(keyMap));
+      renderList();
+    }
+
+    /* ===== 返回 ===== */
+    function back() {
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+/* =========================================
+   Global & Reset
+   ========================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: "Microsoft JhengHei", sans-serif;
+    color: white;
+}
+
+/* =========================================
+   Page: Game (game.html)
+   ========================================= */
+.page-game {
+    background: black;
+}
+
+.page-game canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* =========================================
+   Shared UI Pages (Index, Loading, Settings)
+   ========================================= */
+.page-index, .page-loading, .page-setting {
+    height: 100vh;
+    background: radial-gradient(circle at center, #1a1a1a, #050505);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 18px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.4;
+}
+
+/* =========================================
+   Page: Index (index.html)
+   ========================================= */
+/* Background Flow Lines */
+.page-index::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(120deg,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 40px);
+    animation: drift 12s linear infinite;
+}
+
+@keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: 300px 300px; }
+}
+
+.menu {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.page-index h1 {
+    font-size: 64px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    animation: pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+.subtitle {
+    font-size: 16px;
+    opacity: 0.65;
+    margin-bottom: 48px;
+}
+
+.page-index button {
+    width: 240px;
+    padding: 16px;
+    margin: 12px 0;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.page-index button:hover {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.page-index button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* =========================================
+   Page: Loading (loading.html)
+   ========================================= */
+.loading-box {
+    width: 420px;
+    text-align: center;
+}
+
+.page-loading .title {
+    font-size: 36px;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+}
+
+.bar-bg {
+    width: 100%;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffffffaa, #ffffff);
+    border-radius: 8px;
+    transition: width 0.2s ease;
+}
+
+.tip {
+    font-size: 14px;
+    opacity: 0.7;
+    min-height: 24px;
+    transition: opacity 0.4s ease;
+}
+
+/* =========================================
+   Page: Settings (setting.html)
+   ========================================= */
+.panel {
+    width: 520px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 16px;
+    padding: 36px 40px 32px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.page-setting h1 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+}
+
+.list {
+    margin-bottom: 28px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.action {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+.key {
+    min-width: 140px;
+    text-align: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.key:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.05);
+}
+
+.key.waiting {
+    background: rgba(255, 80, 80, 0.25);
+}
+
+.page-setting .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 26px;
+    position: static; /* Override absolute footer */
+    width: auto;
+    opacity: 1;
+}
+
+.page-setting button {
+    padding: 10px 22px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.page-setting button:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}

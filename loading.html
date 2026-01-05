@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Loading · LAST FRAME</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-loading">
+
+  <div class="loading-box">
+    <div class="title">INITIALIZING SYSTEM</div>
+
+    <div class="bar-bg">
+      <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="tip" id="tip">Loading...</div>
+  </div>
+
+  <div class="footer">LAST FRAME · Prototype</div>
+
+  <script>
+    const tips = [
+      "作者在期限前一天還在優化。",
+      "正在重新組裝核心模組。",
+      "請假裝這是一個很複雜的加載過程。",
+      "子彈正在上膛。",
+      "雷射校準中。",
+      "外殼裂痕生成中。",
+      "這不是 bug，是特色。",
+      "Boss 正在假裝沒有偷看你。",
+      "Loading… Loading… 還在 Loading。",
+      "世界線同步中。"
+    ];
+
+    const bar = document.getElementById("bar");
+    const tip = document.getElementById("tip");
+
+    let progress = 0;
+
+    // 隨機顯示標語
+    function changeTip() {
+      tip.style.opacity = 0;
+      setTimeout(() => {
+        tip.textContent = tips[Math.floor(Math.random() * tips.length)];
+        tip.style.opacity = 0.7;
+      }, 300);
+    }
+
+    // 初始標語
+    changeTip();
+
+    // 每 1.2 秒換一句
+    setInterval(changeTip, 1200);
+
+    // 模擬加載進度
+    const loadingInterval = setInterval(() => {
+      progress += Math.random() * 8 + 4; // 每次 +4~12%
+
+      if (progress >= 100) {
+        progress = 100;
+        bar.style.width = "100%";
+        clearInterval(loadingInterval);
+
+        // 給玩家一點完成感
+        setTimeout(() => {
+          window.location.href = "game.html";
+        }, 600);
+      } else {
+        bar.style.width = progress + "%";
+      }
+    }, 300);
+  </script>
+
+</body>
+
+</html>
