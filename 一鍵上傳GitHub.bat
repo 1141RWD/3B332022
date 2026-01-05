@@ -42,7 +42,7 @@ echo * 系統將會彈出視窗要求您登入 GitHub *
 echo * 請輸入您想要使用的帳號與密碼 (或 Token) *
 echo =======================================================
 git branch -M main
-git push -u origin main
+git push -u origin main --force
 
 echo 完成！
 pause
