@@ -9,7 +9,7 @@
 const PLAYER_DATA = {
     radius: 22,
     baseSpeed: 4.8,
-    maxHP: 9999999,
+    maxHP: 40,
 
     // 射擊基礎：每幾毫秒能射一次（會被武器覆蓋）
     baseShootCd: 160,
